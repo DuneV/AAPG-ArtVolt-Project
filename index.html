@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ArVolt — One tower. Every source. Any territory.</title>
+  <meta name="description" content="ArVolt is a hybrid renewable energy tower that brings clean power and water to off-grid rural communities in Colombia and Latin America." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-dark:  #4a7c2f;
+      --green-mid:   #6b9e3f;
+      --green-light: #8ab85e;
+      --teal:        #2d7d8a;
+      --amber:       #e8a020;
+      --red-soft:    #e05a5a;
+      --off-white:   #f8faf4;
+      --dark:        #1a2310;
+      --gray:        #6b7a60;
+      --radius:      14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--off-white);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px;
+      height: 66px;
+      background: rgba(248,250,244,0.90);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(74,124,47,0.12);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo svg { width: 36px; height: 36px; }
+    .nav-logo span { font-weight: 800; font-size: 1.25rem; color: var(--dark); letter-spacing: -0.5px; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { text-decoration: none; font-size: .9rem; font-weight: 500; color: var(--gray); transition: color .2s; }
+    .nav-links a:hover { color: var(--green-dark); }
+    .nav-cta {
+      background: var(--green-dark); color: #fff;
+      padding: 9px 22px; border-radius: 30px;
+      text-decoration: none; font-size: .88rem; font-weight: 600;
+      transition: background .2s, transform .15s;
+    }
+    .nav-cta:hover { background: var(--green-mid); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      background: linear-gradient(160deg, #eaf3e0 0%, #d6e9c5 35%, #c4dfa8 100%);
+      position: relative; overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 60%, rgba(74,124,47,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(74,124,47,.12); border: 1px solid rgba(74,124,47,.25);
+      color: var(--green-dark); font-size: .8rem; font-weight: 600;
+      padding: 5px 14px; border-radius: 30px; margin-bottom: 28px;
+      letter-spacing: .4px;
+    }
+    .hero-badge::before { content: '🌿'; }
+    h1 {
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 800; line-height: 1.08;
+      letter-spacing: -1.5px; color: var(--dark);
+      max-width: 820px;
+    }
+    h1 em { color: var(--green-dark); font-style: normal; }
+    .hero-sub {
+      margin-top: 22px; font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--gray); max-width: 580px; line-height: 1.65;
+    }
+    .hero-actions { margin-top: 40px; display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .btn-primary {
+      background: var(--green-dark); color: #fff;
+      padding: 14px 32px; border-radius: 40px;
+      text-decoration: none; font-weight: 700; font-size: 1rem;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 6px 24px rgba(74,124,47,.35);
+    }
+    .btn-primary:hover { background: var(--green-mid); transform: translateY(-2px); box-shadow: 0 10px 32px rgba(74,124,47,.4); }
+    .btn-ghost {
+      border: 2px solid var(--green-dark); color: var(--green-dark);
+      padding: 12px 28px; border-radius: 40px;
+      text-decoration: none; font-weight: 600; font-size: 1rem;
+      transition: background .2s, color .2s, transform .15s;
+    }
+    .btn-ghost:hover { background: var(--green-dark); color: #fff; transform: translateY(-2px); }
+
+    .stats-row {
+      margin-top: 60px; display: flex; gap: 48px; flex-wrap: wrap; justify-content: center;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 2rem; font-weight: 800; color: var(--green-dark); line-height: 1; }
+    .stat-label { font-size: .82rem; color: var(--gray); margin-top: 4px; font-weight: 500; }
+
+    /* ── SECTION COMMONS ── */
+    section { padding: 96px 24px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      text-transform: uppercase; letter-spacing: 1.5px; font-size: .75rem;
+      font-weight: 700; color: var(--green-mid); margin-bottom: 12px;
+    }
+    h2 {
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      font-weight: 800; letter-spacing: -1px; line-height: 1.12;
+      color: var(--dark); margin-bottom: 16px;
+    }
+    .section-desc { font-size: 1.05rem; color: var(--gray); max-width: 600px; line-height: 1.7; }
+
+    /* ── VIDEO ── */
+    #video { background: var(--dark); padding: 80px 24px; }
+    #video .section-inner { text-align: center; }
+    #video h2 { color: #fff; }
+    #video .section-label { color: var(--green-light); }
+    #video .section-desc { color: rgba(255,255,255,.6); margin: 0 auto 40px; }
+    .video-wrap {
+      position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+      border-radius: 18px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.5);
+      max-width: 900px; margin: 0 auto;
+    }
+    .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+    /* ── PROBLEM ── */
+    #problem { background: #fff; }
+    .problem-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px;
+      margin-top: 48px;
+    }
+    .problem-card {
+      background: var(--off-white); border-radius: var(--radius);
+      padding: 28px 24px; border: 1px solid rgba(74,124,47,.1);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .problem-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(74,124,47,.1); }
+    .problem-icon { font-size: 2rem; margin-bottom: 14px; }
+    .problem-card h3 { font-size: 1rem; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .problem-card p { font-size: .88rem; color: var(--gray); line-height: 1.6; }
+
+    /* ── SOLUTION ── */
+    #solution { background: var(--off-white); }
+    .solution-layout {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+      align-items: center; margin-top: 48px;
+    }
+    .sources-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 24px; }
+    .source-card {
+      background: #fff; border-radius: var(--radius); padding: 22px 18px;
+      border: 1px solid rgba(74,124,47,.12); text-align: center;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .source-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(74,124,47,.12); }
+    .source-icon {
+      width: 52px; height: 52px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin: 0 auto 12px;
+    }
+    .source-icon.solar { background: var(--green-dark); }
+    .source-icon.wind  { background: var(--teal); }
+    .source-icon.teg   { background: var(--green-light); }
+    .source-card h3 { font-size: .85rem; font-weight: 700; color: var(--green-dark); margin-bottom: 6px; }
+    .source-card p { font-size: .78rem; color: var(--gray); line-height: 1.5; }
+    .kpi-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
+    .kpi {
+      background: #fff; border-radius: var(--radius); padding: 20px;
+      border: 1px solid rgba(74,124,47,.12); text-align: center;
+    }
+    .kpi-num { font-size: 1.9rem; font-weight: 800; color: var(--green-dark); }
+    .kpi-label { font-size: .78rem; color: var(--gray); margin-top: 4px; }
+
+    .value-props { margin-top: 32px; display: flex; flex-direction: column; gap: 18px; }
+    .vp { display: flex; gap: 14px; align-items: flex-start; }
+    .vp-icon {
+      width: 36px; height: 36px; flex-shrink: 0;
+      background: var(--green-dark); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .vp-text h4 { font-size: .95rem; font-weight: 700; color: var(--dark); margin-bottom: 3px; }
+    .vp-text p { font-size: .85rem; color: var(--gray); line-height: 1.55; }
+
+    /* ── IMPACT ── */
+    #impact { background: #fff; }
+    .impact-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-top: 48px; }
+    .impact-card {
+      background: var(--green-dark); color: #fff;
+      border-radius: var(--radius); padding: 36px 28px;
+      transition: transform .2s;
+    }
+    .impact-card:hover { transform: translateY(-4px); }
+    .impact-card:nth-child(2) { background: var(--teal); }
+    .impact-card:nth-child(3) { background: var(--green-mid); }
+    .impact-card .big { font-size: 2.4rem; font-weight: 800; line-height: 1.1; margin-bottom: 10px; }
+    .impact-card .big span { color: var(--amber); }
+    .impact-card p { font-size: .9rem; opacity: .85; line-height: 1.6; }
+
+    /* ── BUSINESS MODEL ── */
+    #business { background: var(--off-white); }
+    .revenue-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 48px; }
+    .rev-card {
+      background: #fff; border-radius: var(--radius); padding: 30px 24px;
+      border: 1px solid rgba(74,124,47,.12);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .rev-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(74,124,47,.1); }
+    .rev-icon { font-size: 2rem; margin-bottom: 14px; }
+    .rev-card h3 { font-size: 1rem; font-weight: 700; color: var(--green-dark); margin-bottom: 8px; }
+    .rev-card p { font-size: .87rem; color: var(--gray); line-height: 1.6; }
+    .price-highlight {
+      margin-top: 40px; background: var(--green-dark); color: #fff;
+      border-radius: var(--radius); padding: 36px 40px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px;
+    }
+    .price-highlight .big-price { font-size: 3rem; font-weight: 800; line-height: 1; }
+    .price-highlight .big-price span { font-size: 1.1rem; font-weight: 400; opacity: .7; display: block; margin-top: 4px; }
+    .projection-bars { display: flex; gap: 16px; align-items: flex-end; }
+    .bar-group { text-align: center; }
+    .bar { width: 52px; border-radius: 6px 6px 0 0; background: rgba(255,255,255,.25); position: relative; }
+    .bar-label { font-size: .72rem; opacity: .75; margin-top: 4px; }
+    .bar-val { font-size: .85rem; font-weight: 700; position: absolute; top: -22px; left: 50%; transform: translateX(-50%); white-space: nowrap; }
+
+    /* ── TEAM ── */
+    #team { background: #fff; }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 24px; margin-top: 48px; }
+    .team-card { text-align: center; }
+    .team-avatar {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--green-dark), var(--teal));
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 12px; font-size: 1.6rem; font-weight: 800; color: #fff;
+    }
+    .team-card h4 { font-size: .95rem; font-weight: 700; color: var(--dark); }
+    .team-card p { font-size: .8rem; color: var(--gray); margin-top: 3px; }
+
+    /* ── TIMELINE ── */
+    #timeline { background: var(--off-white); }
+    .phases { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 48px; }
+    .phase {
+      background: #fff; border-radius: var(--radius); padding: 24px 20px;
+      border-top: 4px solid var(--green-light);
+      transition: transform .2s;
+    }
+    .phase:hover { transform: translateY(-3px); }
+    .phase.current { border-color: var(--red-soft); }
+    .phase.next     { border-color: var(--green-dark); }
+    .phase.planned  { border-color: var(--teal); }
+    .phase.vision   { border-color: var(--amber); }
+    .phase-badge {
+      display: inline-block; font-size: .72rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 20px; margin-bottom: 12px;
+      background: var(--off-white); color: var(--gray);
+    }
+    .phase.current .phase-badge { background: #fde8e8; color: var(--red-soft); }
+    .phase.next .phase-badge    { background: #e8f3e0; color: var(--green-dark); }
+    .phase.planned .phase-badge { background: #e0f0f3; color: var(--teal); }
+    .phase.vision .phase-badge  { background: #fef3e0; color: var(--amber); }
+    .phase h3 { font-size: .95rem; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .phase ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .phase ul li { font-size: .82rem; color: var(--gray); display: flex; gap: 6px; }
+    .phase ul li::before { content: '→'; color: var(--green-mid); flex-shrink: 0; }
+
+    /* ── CTA ── */
+    #cta {
+      background: linear-gradient(135deg, var(--green-dark), var(--teal));
+      color: #fff; text-align: center; padding: 100px 24px;
+    }
+    #cta h2 { color: #fff; margin-bottom: 16px; }
+    #cta p { color: rgba(255,255,255,.75); font-size: 1.05rem; max-width: 520px; margin: 0 auto 40px; line-height: 1.7; }
+    #cta .btn-white {
+      background: #fff; color: var(--green-dark);
+      padding: 14px 36px; border-radius: 40px;
+      font-weight: 700; font-size: 1rem; text-decoration: none;
+      transition: opacity .2s, transform .15s;
+      display: inline-block;
+    }
+    #cta .btn-white:hover { opacity: .9; transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark); color: rgba(255,255,255,.5);
+      text-align: center; padding: 32px 24px;
+      font-size: .82rem;
+    }
+    footer strong { color: rgba(255,255,255,.85); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .solution-layout { grid-template-columns: 1fr; gap: 40px; }
+      .price-highlight { flex-direction: column; }
+      .stats-row { gap: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    <!-- inline SVG logo approximation of ArVolt's tree+wind logo -->
+    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="18" cy="18" r="18" fill="#4a7c2f"/>
+      <path d="M18 28 L18 14" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+      <path d="M18 14 L14 10 M18 14 L22 10 M18 14 L12 16 M18 14 L24 16" stroke="#8ab85e" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="18" cy="28" r="2.5" fill="#e8a020"/>
+      <path d="M13 27 Q18 25 23 27" stroke="#2d7d8a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span>ArVolt</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#solution">Solution</a></li>
+    <li><a href="#impact">Impact</a></li>
+    <li><a href="#business">Business</a></li>
+    <li><a href="#team">Team</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">Contact us</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-badge">Renewable Energy · Rural Colombia · LATAM</div>
+  <h1>One tower.<br><em>Every source.</em><br>Any territory.</h1>
+  <p class="hero-sub">ArVolt is a hybrid energy tower — solar, wind, and geothermal/biogas — that brings clean power and pumped water to off-grid rural communities, starting in Paipa, Boyacá.</p>
+  <div class="hero-actions">
+    <a href="#video" class="btn-primary">▶ Watch Demo</a>
+    <a href="#solution" class="btn-ghost">Explore the Solution</a>
+  </div>
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-num">1,004</div>
+      <div class="stat-label">Residents served<br>in Paipa pilot</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">−85%</div>
+      <div class="stat-label">Emissions<br>vs. diesel pumping</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">3.14 m²</div>
+      <div class="stat-label">Total tower<br>footprint</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">240+</div>
+      <div class="stat-label">Municipalities<br>reachable in Colombia</div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section id="video">
+  <div class="section-inner">
+    <div class="section-label">Demo Day Pitch</div>
+    <h2>See ArVolt in action</h2>
+    <p class="section-desc">Our team presents the full concept, prototype designs, and the communities we're serving.</p>
+    <div class="video-wrap">
+      <iframe
+        src="https://www.youtube.com/embed/hCwC5xsjuMc"
+        title="ArVolt Demo Day Pitch"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="section-inner">
+    <div class="section-label">The Problem</div>
+    <h2>Rural Paipa's energy<br>and water crisis</h2>
+    <p class="section-desc">Three veredas (hamlets) around Paipa face compounding challenges that no single existing solution addresses.</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon">🧂</div>
+        <h3>Salinized Water</h3>
+        <p>Local water is salinized by the hydrothermal flow of the Paipa geothermal anomaly — salinity of 20,000–60,000 mg/L makes it unusable for humans or agriculture.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">⚡</div>
+        <h3>No Reliable Energy</h3>
+        <p>The electrical grid doesn't reach the area. Existing pumps run on gasoline or hybrid batteries. Each hamlet runs its own independent aqueduct, unregulated by the municipality.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🔥</div>
+        <h3>Firewood Cooking</h3>
+        <p>Families cook with firewood, causing respiratory disease and loss of productive hours, with no infrastructure for gas or electricity as healthier alternatives.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🤝</div>
+        <h3>Distrust in Providers</h3>
+        <p>Energy providers have repeatedly failed to deliver, lack community relationships, and have no real presence in the territory. Communities no longer believe outside solutions will work.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section id="solution">
+  <div class="section-inner">
+    <div class="section-label">Our Solution</div>
+    <h2>One compact tower,<br>three complementary sources</h2>
+    <div class="solution-layout">
+      <div>
+        <p class="section-desc">ArVolt integrates three renewable energy sources into a single modular tower, delivering 24/7 autonomous power for water pumping and community use.</p>
+        <div class="sources-grid">
+          <div class="source-card">
+            <div class="source-icon solar">☀️</div>
+            <h3>Solar Tracking Crown</h3>
+            <p>Six radial panels with single-motor tracker: +27.1% annual yield vs. fixed — validated in simulation.</p>
+          </div>
+          <div class="source-card">
+            <div class="source-icon wind">💨</div>
+            <h3>Vertical-Axis Turbine</h3>
+            <p>NACA 0018 blades keep generating at night and through the rainy season.</p>
+          </div>
+          <div class="source-card">
+            <div class="source-icon teg">🌡️</div>
+            <h3>TEG / Biogas Base</h3>
+            <p>Converts shallow ground heat or farm waste into steady baseline power — no single-point failure.</p>
+          </div>
+        </div>
+        <div class="kpi-row">
+          <div class="kpi">
+            <div class="kpi-num">3.14 m²</div>
+            <div class="kpi-label">Total footprint</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-num">−85%</div>
+            <div class="kpi-label">CO₂ vs. diesel</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-num">1:16</div>
+            <div class="kpi-label">Scale prototype</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-num">1:8</div>
+            <div class="kpi-label">Field prototype</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="value-props">
+          <div class="vp">
+            <div class="vp-icon">⚡</div>
+            <div class="vp-text">
+              <h4>Autonomous &amp; Reliable</h4>
+              <p>Hybrid generation removes the intermittency risk of solar-only systems. Power flows day, night, sun or rain.</p>
+            </div>
+          </div>
+          <div class="vp">
+            <div class="vp-icon">🧩</div>
+            <div class="vp-text">
+              <h4>Modular by Design</h4>
+              <p>The base swaps between geothermal TEG and biogas to fit each site's natural resources. No one-size-fits-all.</p>
+            </div>
+          </div>
+          <div class="vp">
+            <div class="vp-icon">📱</div>
+            <div class="vp-text">
+              <h4>Community in Control</h4>
+              <p>A simple app shows available energy and lets locals decide when to pump — giving communities real agency over their water supply.</p>
+            </div>
+          </div>
+          <div class="vp">
+            <div class="vp-icon">📡</div>
+            <div class="vp-text">
+              <h4>Data-Generating Asset</h4>
+              <p>Every tower captures environmental and geophysical data in real time, creating a secondary revenue stream via data licensing.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<section id="impact">
+  <div class="section-inner">
+    <div class="section-label">Social Impact</div>
+    <h2>Technology that changes<br>quality of life</h2>
+    <p class="section-desc">ArVolt directly addresses UN SDG 6 (Clean Water) and SDG 7 (Affordable Clean Energy). Every tower installed is a ripple across the community.</p>
+    <div class="impact-cards">
+      <div class="impact-card">
+        <div class="big">No blackout<br><span>= no water crisis</span></div>
+        <p>Hours of calm when they need it most — not just technology for a community, but a safety net during grid outages.</p>
+      </div>
+      <div class="impact-card">
+        <div class="big"><span>240+</span><br>municipalities</div>
+        <p>What we achieve in Paipa can reach over 240 municipalities — so fewer communities are left behind.</p>
+      </div>
+      <div class="impact-card">
+        <div class="big">Time<br><span>= quality of life</span></div>
+        <p>Hours lost hauling water become hours of school, work, or rest. That's not just time saved. That's dignity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESS MODEL -->
+<section id="business">
+  <div class="section-inner">
+    <div class="section-label">Business Model &amp; Pricing</div>
+    <h2>B2G — the public entity<br>is the customer</h2>
+    <p class="section-desc">Rural communities receive pumped water at no direct cost. Municipalities, governors' offices, and environmental agencies (like Corpoboyacá) are the paying clients.</p>
+    <div class="revenue-grid">
+      <div class="rev-card">
+        <div class="rev-icon">🤝</div>
+        <h3>Infrastructure Sales</h3>
+        <p>B2G contracts for modular towers via public procurement and innovation funds. Each sale includes installation and commissioning.</p>
+      </div>
+      <div class="rev-card">
+        <div class="rev-icon">🔧</div>
+        <h3>O&amp;M Contracts</h3>
+        <p>Recurring maintenance agreements with municipalities — predictable, long-term income stream per installed unit.</p>
+      </div>
+      <div class="rev-card">
+        <div class="rev-icon">🗂️</div>
+        <h3>Data Licensing</h3>
+        <p>Environmental and geophysical data captured in real time by each tower, licensed to research and environmental agencies.</p>
+      </div>
+    </div>
+    <div class="price-highlight">
+      <div>
+        <div class="big-price">
+          USD 82.5k
+          <span>price floor per system</span>
+        </div>
+        <p style="opacity:.75;font-size:.88rem;margin-top:10px;max-width:340px;line-height:1.6;">
+          Benchmarked against El Salitre PV pumping station, Paipa 2025 ($330M COP, solar-only). Priced on what each municipality saves vs. diesel gensets and water trucking.
+        </p>
+      </div>
+      <div>
+        <p style="font-size:.8rem;opacity:.7;margin-bottom:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;">Revenue Projection (USD k)</p>
+        <div class="projection-bars">
+          <div class="bar-group">
+            <div class="bar" style="height:80px;">
+              <span class="bar-val">$248k</span>
+            </div>
+            <div class="bar-label">Y1 · 1 deal</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar" style="height:120px;">
+              <span class="bar-val">$330k</span>
+            </div>
+            <div class="bar-label">Y2 · 4 deals</div>
+          </div>
+          <div class="bar-group">
+            <div class="bar" style="height:200px;">
+              <span class="bar-val">$825k</span>
+            </div>
+            <div class="bar-label">Y3 · 10 deals</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="section-inner">
+    <div class="section-label">The Founders</div>
+    <h2>Six builders, one mission</h2>
+    <p class="section-desc">A multidisciplinary team of engineers and geoscientists, born from Boyacá, building for rural Colombia.</p>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar">DA</div>
+        <h4>Daniel Alvarez</h4>
+        <p>Co-founder</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">JR</div>
+        <h4>Julián Rosas</h4>
+        <p>Co-founder</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">VP</div>
+        <h4>Vince Pérez</h4>
+        <p>Co-founder</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">PO</div>
+        <h4>Paula Olarte</h4>
+        <p>Co-founder</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">JA</div>
+        <h4>Jaime Ahumada</h4>
+        <p>Co-founder</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">XA</div>
+        <h4>Ximena Alzate</h4>
+        <p>Co-founder</p>
+      </div>
+    </div>
+    <p style="margin-top:36px;font-size:.88rem;color:var(--gray);text-align:center;">
+      Backed by <strong>AAPG SDEC Venture Lab</strong> &amp; <strong>Alcaldía de Paipa</strong> · Seeking <strong>$5,580 USD seed round</strong> (Stage 1)
+    </p>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="section-inner">
+    <div class="section-label">Roadmap</div>
+    <h2>M1 to M24 — where we are<br>and where we're going</h2>
+    <div class="phases">
+      <div class="phase current">
+        <span class="phase-badge">▶ In Progress · M6</span>
+        <h3>Phase 1: Design</h3>
+        <ul>
+          <li>Solar crown design validated</li>
+          <li>Wind &amp; thermal simulations completed</li>
+          <li>Geothermal plan completed</li>
+        </ul>
+      </div>
+      <div class="phase next">
+        <span class="phase-badge">Next · M7–M12</span>
+        <h3>Phase 2: Prototype</h3>
+        <ul>
+          <li>Integrated physical prototype</li>
+          <li>Field validation in Paipa</li>
+          <li>Seed funding round closed</li>
+        </ul>
+      </div>
+      <div class="phase planned">
+        <span class="phase-badge">Planned · M13–M18</span>
+        <h3>Phase 3: Pilot</h3>
+        <ul>
+          <li>Pilot installation with customer</li>
+          <li>Real-world generation data</li>
+          <li>Business model validated</li>
+        </ul>
+      </div>
+      <div class="phase vision">
+        <span class="phase-badge">Vision · M19–M24</span>
+        <h3>Phase 4: Scale</h3>
+        <ul>
+          <li>Expansion to 5+ customers</li>
+          <li>Local manufacturing</li>
+          <li>Certifications in progress</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <h2>Ready to power<br>what's been left behind?</h2>
+  <p>Whether you're a municipality, an impact investor, or a partner institution — ArVolt is looking for allies to bring clean energy and water to rural Colombia.</p>
+  <a href="mailto:arvolt@contact.co" class="btn-white">Get in touch →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>ArVolt</strong> · One tower. Every source. Any territory. · Paipa, Boyacá, Colombia · 2026</p>
+  <p style="margin-top:8px;">Daniel Alvarez · Julián Rosas · Vince Pérez · Paula Olarte · Jaime Ahumada · Ximena Alzate</p>
+</footer>
+
+</body>
+</html>
